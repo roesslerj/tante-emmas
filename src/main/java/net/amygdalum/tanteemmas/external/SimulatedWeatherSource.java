@@ -1,4 +1,4 @@
-package net.amygdalum.tanteemmas.server;
+package net.amygdalum.tanteemmas.external;
 
 import static net.amygdalum.tanteemmas.sources.Precipitation.DRIZZLE;
 import static net.amygdalum.tanteemmas.sources.Precipitation.DRY;

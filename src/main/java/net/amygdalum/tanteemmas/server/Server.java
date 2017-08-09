@@ -1,11 +1,8 @@
 package net.amygdalum.tanteemmas.server;
 
-import static java.util.Arrays.asList;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +13,9 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.templ.HandlebarsTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
+import net.amygdalum.tanteemmas.external.SimulatedDateSource;
+import net.amygdalum.tanteemmas.external.SimulatedDaytimeSource;
+import net.amygdalum.tanteemmas.external.SimulatedWeatherSource;
 
 public class Server extends AbstractVerticle {
 
@@ -26,8 +26,8 @@ public class Server extends AbstractVerticle {
 
 	public Server() {
 		engine = HandlebarsTemplateEngine.create().setExtension("html");
-		products = new ProductRepo();
-		customers = new CustomerRepo();
+		products = new ProductRepo().init();
+		customers = new CustomerRepo().init();
 		SimulatedDateSource date = new SimulatedDateSource(50);
 		SimulatedDaytimeSource daytime = new SimulatedDaytimeSource(50);
 		prices = new PriceCalculator(date, daytime, new SimulatedWeatherSource(date));
@@ -35,35 +35,11 @@ public class Server extends AbstractVerticle {
 
 	public void start() {
 		Router router = Router.router(vertx);
-		router.route("/init").handler(this::init);
 		router.route("/:customer/prices").handler(this::prices);
 		router.route().handler(this::show);
 
 		HttpServer server = vertx.createHttpServer();
 		server.requestHandler(router::accept).listen(8080);
-	}
-
-	public void init(RoutingContext context) {
-		try {
-			customers.registerCustomer(new Customer("Armer Schlucker", true));
-			
-			products.registerProduct(createProduct("Regencape", BigDecimal.valueOf(15.0), "rainwear"));
-			products.registerProduct(createProduct("Badeanzug", BigDecimal.valueOf(25.0), "summerdress"));
-			
-			context.next();
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private Map<String, Object> createProduct(String name, BigDecimal base, String... categories) {
-		Map<String, Object> product = new HashMap<>();
-		product.put("name", name);
-		product.put("basePrice", base);
-		product.put("categories", new HashSet<>(asList(categories)));
-		return product;
 	}
 
 	public void prices(RoutingContext context) {

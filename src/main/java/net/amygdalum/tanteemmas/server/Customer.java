@@ -1,12 +1,18 @@
 package net.amygdalum.tanteemmas.server;
 
+import java.math.BigDecimal;
+
 public class Customer {
 
 	public String name;
-	public boolean debt;
+	public BigDecimal debt;
+	public boolean notCreditable;
+	public String status;
 
-	public Customer(String name, boolean debt) {
+	public Customer(String name) {
 		this.name = name;
-		this.debt = debt;
+		this.debt = BigDecimal.ZERO;
+		this.notCreditable = false;
 	}
+	
 }

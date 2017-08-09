@@ -1,4 +1,4 @@
-package net.amygdalum.tanteemmas.server;
+package net.amygdalum.tanteemmas.external;
 
 import net.amygdalum.tanteemmas.sources.Daytime;
 import net.amygdalum.tanteemmas.sources.DaytimeSource;
