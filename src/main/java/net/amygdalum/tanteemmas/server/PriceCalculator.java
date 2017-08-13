@@ -19,6 +19,8 @@ import net.amygdalum.tanteemmas.sources.Wind;
 
 public class PriceCalculator {
 
+	public static Customer customer;
+	
 	private DateSource date;
 	private DaytimeSource daytime;
 	private Weather‬Source weather;
@@ -29,7 +31,7 @@ public class PriceCalculator {
 		this.weather = weather;
 	}
 
-	public BigDecimal computePrice(Customer customer, Map<String, Object> product) {
+	public BigDecimal computePrice(Map<String, Object> product) {
 		BigDecimal price = (BigDecimal) product.get("basePrice");
 		if (price == null) {
 			return null;

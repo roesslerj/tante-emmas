@@ -16,40 +16,52 @@ import io.vertx.ext.web.templ.TemplateEngine;
 import net.amygdalum.tanteemmas.external.SimulatedDateSource;
 import net.amygdalum.tanteemmas.external.SimulatedDaytimeSource;
 import net.amygdalum.tanteemmas.external.SimulatedWeatherSource;
+import net.amygdalum.tanteemmas.sources.DateSource;
+import net.amygdalum.tanteemmas.sources.DaytimeSource;
+import net.amygdalum.tanteemmas.sources.Weather‬Source;
 
 public class Server extends AbstractVerticle {
 
 	private CustomerRepo customers;
 	private ProductRepo products;
 	private TemplateEngine engine;
-	private PriceCalculator prices;
+	
+	private DateSource date;
+	private DaytimeSource daytime;
+	private Weather‬Source weather;
 
 	public Server() {
 		engine = HandlebarsTemplateEngine.create().setExtension("html");
 		products = new ProductRepo().init();
 		customers = new CustomerRepo().init();
-		SimulatedDateSource date = new SimulatedDateSource(50);
-		SimulatedDaytimeSource daytime = new SimulatedDaytimeSource(50);
-		prices = new PriceCalculator(date, daytime, new SimulatedWeatherSource(date));
+		date = new SimulatedDateSource(50);
+		daytime = new SimulatedDaytimeSource(50);
+		weather = new SimulatedWeatherSource(date);
 	}
 
 	public void start() {
 		Router router = Router.router(vertx);
-		router.route("/:customer/prices").handler(this::prices);
+		router.route("/login/:customer").handler(this::login);
+		router.route("/prices").handler(this::prices);
 		router.route().handler(this::show);
 
 		HttpServer server = vertx.createHttpServer();
 		server.requestHandler(router::accept).listen(8080);
 	}
+	public void login(RoutingContext context) {
+		String name = context.request().getParam("customer");
+		Customer customer = customers.getCustomer(name);
+		PriceCalculator.customer = customer;
+	}
+
 
 	public void prices(RoutingContext context) {
 		try {
+			PriceCalculator prices = new PriceCalculator(date, daytime, weather);
 			List<Map<String, Object>> priceTable = new ArrayList<>();
 			context.data().put("products", priceTable);
-			String name = context.request().getParam("customer");
-			Customer customer = customers.getCustomer(name);
 			for (Map<String, Object> product : products.getProducts()) {
-				BigDecimal price = prices.computePrice(customer, product);
+				BigDecimal price = prices.computePrice(product);
 
 				Map<String, Object> productWithPrice = new HashMap<>(product);
 				productWithPrice.put("price", price);
