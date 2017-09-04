@@ -3,16 +3,11 @@
 </head>
 <body>
 <h1>Tante Emmas Online Shop</h1>
-<h2>Eingeloggt als:{{user}}</h2>
-<table>
-<th>Product</th><th>Price</th>
-{{#each products}}
-<tr>
-<td>{{name}}</td><td>{{price}}</td>
-<tr>
-{{/each}}
-</table>
-
+<h2>Bitte einloggen:</h2>
+<form action="/login" method="get">
+<input name="customer" type="text"/>
+<input type="submit" >
+</form>
 
 <h2>Der Tag</h2>
 

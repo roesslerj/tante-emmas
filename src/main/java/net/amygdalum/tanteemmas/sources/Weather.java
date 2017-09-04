@@ -2,9 +2,9 @@ package net.amygdalum.tanteemmas.sources;
 
 public class Weather {
 
-	public Precipitation precipitation;
-	public Temperature temperature;
-	public Wind wind;
+	private Precipitation precipitation;
+	private Temperature temperature;
+	private Wind wind;
 	
 	public Weather(Precipitation precipitation, Temperature temperature, Wind wind) {
 		this.precipitation = precipitation;
@@ -14,8 +14,20 @@ public class Weather {
 
 	@Override
 	public String toString() {
-		return temperature + "/" + precipitation + "/" + wind;
+		return temperature + "/" + getPrecipitation() + "/" + wind;
 	}
-		
+
+	public Precipitation getPrecipitation() {
+		return precipitation;
+	}
+	
+	public Temperature getTemperature() {
+		return temperature;
+	}
+	
+	public Wind getWind() {
+		return wind;
+	}
+	
 	
 }

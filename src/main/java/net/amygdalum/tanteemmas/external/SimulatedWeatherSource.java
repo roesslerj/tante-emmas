@@ -23,12 +23,14 @@ import net.amygdalum.tanteemmas.sources.Wind;
 
 public class SimulatedWeatherSource implements Weather‬Source {
 
+	private TimeProvider time;
 	private DateSource date;
 	private Waves precipitation;
 	private Waves temperature;
 	private Waves wind;
 
-	public SimulatedWeatherSource(DateSource date) {
+	public SimulatedWeatherSource(TimeProvider time, DateSource date) {
+		this.time = time;
 		this.date = date;
 		this.precipitation = new Waves(1.0, 5, 15.0);
 		this.temperature = new Waves(1.5, 3.5, 10.0);
@@ -37,9 +39,9 @@ public class SimulatedWeatherSource implements Weather‬Source {
 
 	@Override
 	public Weather getWeather() {
-		double base = System.currentTimeMillis();
+		double base = time.hours();
 
-		Season season = date.getDate().season;
+		Season season = date.getDate().getSeason();
 		
 		
 		return new Weather(
@@ -78,16 +80,6 @@ public class SimulatedWeatherSource implements Weather‬Source {
 
 	public static Wind[] windForSeason(Season season) {
 		return Wind.values();
-	}
-
-	public static void main(String[] args) throws InterruptedException {
-		SimulatedDateSource date = new SimulatedDateSource(2);
-		SimulatedWeatherSource source = new SimulatedWeatherSource(date);
-		while (true) {
-			System.out.println(date.getDate().season + "/" + date.getDate().weekday + ":" + source.getWeather());
-			
-			Thread.sleep(1000);
-		}
 	}
 
 	private static class Waves {

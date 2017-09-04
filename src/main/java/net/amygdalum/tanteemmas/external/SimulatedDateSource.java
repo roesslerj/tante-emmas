@@ -7,17 +7,15 @@ import net.amygdalum.tanteemmas.sources.Weekday;
 
 public class SimulatedDateSource implements DateSource {
 
-	private long speed;
-	private long start;
+	private TimeProvider time;
 
-	public SimulatedDateSource(long speed) {
-		this.speed = speed;
-		this.start = System.currentTimeMillis();
+	public SimulatedDateSource(TimeProvider time) {
+		this.time = time;
 	}
 
 	@Override
 	public Date getDate() {
-		long base = (long) ((System.currentTimeMillis() - start) / 1000 * speed);
+		long base = (long) (time.days());
 		int dayOfYear = (int) (base % 365);
 		if (dayOfYear < 0) {
 			dayOfYear += 365;

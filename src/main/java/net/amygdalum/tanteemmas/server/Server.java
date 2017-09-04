@@ -13,6 +13,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.templ.HandlebarsTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
+import net.amygdalum.tanteemmas.external.TimeProvider;
 import net.amygdalum.tanteemmas.external.SimulatedDateSource;
 import net.amygdalum.tanteemmas.external.SimulatedDaytimeSource;
 import net.amygdalum.tanteemmas.external.SimulatedWeatherSource;
@@ -25,7 +26,8 @@ public class Server extends AbstractVerticle {
 	private CustomerRepo customers;
 	private ProductRepo products;
 	private TemplateEngine engine;
-	
+
+	private TimeProvider millis;
 	private DateSource date;
 	private DaytimeSource daytime;
 	private Weather‬Source weather;
@@ -34,26 +36,37 @@ public class Server extends AbstractVerticle {
 		engine = HandlebarsTemplateEngine.create().setExtension("html");
 		products = new ProductRepo().init();
 		customers = new CustomerRepo().init();
-		date = new SimulatedDateSource(50);
-		daytime = new SimulatedDaytimeSource(50);
-		weather = new SimulatedWeatherSource(date);
+		millis = new TimeProvider();
+		date = new SimulatedDateSource(millis);
+		daytime = new SimulatedDaytimeSource(millis);
+		weather = new SimulatedWeatherSource(millis, date);
 	}
 
 	public void start() {
 		Router router = Router.router(vertx);
-		router.route("/login/:customer").handler(this::login);
+		router.route("/speed/:speed").handler(this::speed);
+		router.route("/login").handler(this::login);
 		router.route("/prices").handler(this::prices);
+		router.route("/showPrices").handler(this::showPrices);
+		router.route("/showLogin").handler(this::showLogin);
 		router.route().handler(this::show);
 
 		HttpServer server = vertx.createHttpServer();
 		server.requestHandler(router::accept).listen(8080);
 	}
+
+	public void speed(RoutingContext context) {
+		long speed = Long.parseLong(context.request().getParam("speed"));
+		millis.setSpeed(speed);
+		context.reroute("/prices");
+	}
+
 	public void login(RoutingContext context) {
 		String name = context.request().getParam("customer");
 		Customer customer = customers.getCustomer(name);
 		PriceCalculator.customer = customer;
+		context.reroute("/prices");
 	}
-
 
 	public void prices(RoutingContext context) {
 		try {
@@ -76,8 +89,31 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void show(RoutingContext context) {
+		context.data().put("date",date.getDate());
+		context.data().put("daytime",daytime.getDaytime());
+		context.data().put("weather",weather.getWeather());
+		
+		if (PriceCalculator.customer == null) {
+			context.reroute("/showLogin");
+		} else {
+			context.reroute("/showPrices");
+		}
+	}
+
+	public void showPrices(RoutingContext context) {
+		context.data().put("user", PriceCalculator.customer.name);
 
 		engine.render(context, "src/main/resources/index.html", res -> {
+			if (res.succeeded()) {
+				context.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html").end(res.result());
+			} else {
+				context.fail(res.cause());
+			}
+		});
+	}
+
+	public void showLogin(RoutingContext context) {
+		engine.render(context, "src/main/resources/login.html", res -> {
 			if (res.succeeded()) {
 				context.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html").end(res.result());
 			} else {

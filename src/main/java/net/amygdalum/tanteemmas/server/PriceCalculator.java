@@ -56,22 +56,22 @@ public class PriceCalculator {
 			@SuppressWarnings("unchecked")
 			Set<String> categories = (Set<String>) product.getOrDefault("categories", emptySet());
 			if (categories.contains("rainwear")
-				&& (weather.getWeather().precipitation.equals(Precipitation.DRIZZLE)
-					|| weather.getWeather().precipitation.equals(Precipitation.RAIN))
-				|| date.getDate().season == Season.FALL) {
+				&& (weather.getWeather().getPrecipitation().equals(Precipitation.DRIZZLE)
+					|| weather.getWeather().getPrecipitation().equals(Precipitation.RAIN))
+				|| date.getDate().getSeason() == Season.FALL) {
 				price = price.multiply(BigDecimal.valueOf(102, 2));
 				product.put("bad circumstances", true);
 			}
-			if (weather.getWeather().wind == Wind.STORM
-				|| weather.getWeather().temperature == Temperature.FREEZING
-				|| weather.getWeather().precipitation == Precipitation.RAIN) {
+			if (weather.getWeather().getWind() == Wind.STORM
+				|| weather.getWeather().getTemperature() == Temperature.FREEZING
+				|| weather.getWeather().getPrecipitation() == Precipitation.RAIN) {
 				product.put("bad circumstances", true);
 			}
 			if (categories.contains("summercollection")
-				&& (date.getDate().season == Season.SUMMER)) {
+				&& (date.getDate().getSeason() == Season.SUMMER)) {
 				price = price.multiply(BigDecimal.valueOf(105, 2));
 			}
-			if (date.getDate().weekday == Weekday.SATURDAY || date.getDate().weekday == Weekday.SUNDAY) {
+			if (date.getDate().getWeekday() == Weekday.SATURDAY || date.getDate().getWeekday() == Weekday.SUNDAY) {
 				price = price.multiply(BigDecimal.valueOf(103, 2));
 			}
 			if (daytime.getDaytime() == Daytime.MORNING || daytime.getDaytime() == Daytime.EVENING) {
