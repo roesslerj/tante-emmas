@@ -89,7 +89,7 @@ public class PriceCalculator {
 			price = price.multiply(BigDecimal.valueOf(102, 2));
 		}
 		if (netPrice) {
-			price = price.divide(BigDecimal.valueOf(119, 2));
+			price = price.divide(BigDecimal.valueOf(119, 2), RoundingMode.HALF_UP);
 		}
 		return price.setScale(2, RoundingMode.HALF_UP);
 	}

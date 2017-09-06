@@ -69,6 +69,10 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void prices(RoutingContext context) {
+		if (PriceCalculator.customer == null) {
+			context.next();
+			return;
+		}
 		try {
 			PriceCalculator prices = new PriceCalculator(date, daytime, weather);
 			List<Map<String, Object>> priceTable = new ArrayList<>();
