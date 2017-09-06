@@ -7,12 +7,14 @@ import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Set;
 
+import net.amygdalum.tanteemmas.sources.Date;
 import net.amygdalum.tanteemmas.sources.DateSource;
 import net.amygdalum.tanteemmas.sources.Daytime;
 import net.amygdalum.tanteemmas.sources.DaytimeSource;
 import net.amygdalum.tanteemmas.sources.Precipitation;
 import net.amygdalum.tanteemmas.sources.Season;
 import net.amygdalum.tanteemmas.sources.Temperature;
+import net.amygdalum.tanteemmas.sources.Weather;
 import net.amygdalum.tanteemmas.sources.Weather‬Source;
 import net.amygdalum.tanteemmas.sources.Weekday;
 import net.amygdalum.tanteemmas.sources.Wind;
@@ -20,15 +22,15 @@ import net.amygdalum.tanteemmas.sources.Wind;
 public class PriceCalculator {
 
 	public static Customer customer;
-	
-	private DateSource date;
-	private DaytimeSource daytime;
-	private Weather‬Source weather;
+
+	private DateSource dateSource;
+	private DaytimeSource daytimeSource;
+	private Weather‬Source weatherSource;
 
 	public PriceCalculator(DateSource date, DaytimeSource daytime, Weather‬Source weather) {
-		this.date = date;
-		this.daytime = daytime;
-		this.weather = weather;
+		this.dateSource = date;
+		this.daytimeSource = daytime;
+		this.weatherSource = weather;
 	}
 
 	public BigDecimal computePrice(Map<String, Object> product) {
@@ -53,28 +55,32 @@ public class PriceCalculator {
 			throw new RuntimeException("Please pay your debt");
 		}
 		if (!fairPrice) {
+			Daytime daytime = daytimeSource.getDaytime();
+			Date date = dateSource.getDate();
+			Weather weather = weatherSource.getWeather();
+			
 			@SuppressWarnings("unchecked")
 			Set<String> categories = (Set<String>) product.getOrDefault("categories", emptySet());
 			if (categories.contains("rainwear")
-				&& (weather.getWeather().getPrecipitation().equals(Precipitation.DRIZZLE)
-					|| weather.getWeather().getPrecipitation().equals(Precipitation.RAIN))
-				|| date.getDate().getSeason() == Season.FALL) {
+				&& (weather.getPrecipitation().equals(Precipitation.DRIZZLE)
+					|| weather.getPrecipitation().equals(Precipitation.RAIN))
+				|| date.getSeason() == Season.FALL) {
 				price = price.multiply(BigDecimal.valueOf(102, 2));
 				product.put("bad circumstances", true);
 			}
-			if (weather.getWeather().getWind() == Wind.STORM
-				|| weather.getWeather().getTemperature() == Temperature.FREEZING
-				|| weather.getWeather().getPrecipitation() == Precipitation.RAIN) {
+			if (weather.getWind() == Wind.STORM
+				|| weather.getTemperature() == Temperature.FREEZING
+				|| weather.getPrecipitation() == Precipitation.RAIN) {
 				product.put("bad circumstances", true);
 			}
 			if (categories.contains("summercollection")
-				&& (date.getDate().getSeason() == Season.SUMMER)) {
+				&& (date.getSeason() == Season.SUMMER)) {
 				price = price.multiply(BigDecimal.valueOf(105, 2));
 			}
-			if (date.getDate().getWeekday() == Weekday.SATURDAY || date.getDate().getWeekday() == Weekday.SUNDAY) {
+			if (date.getWeekday() == Weekday.SATURDAY || date.getWeekday() == Weekday.SUNDAY) {
 				price = price.multiply(BigDecimal.valueOf(103, 2));
 			}
-			if (daytime.getDaytime() == Daytime.MORNING || daytime.getDaytime() == Daytime.EVENING) {
+			if (daytime == Daytime.MORNING || daytime == Daytime.EVENING) {
 				price = price.multiply(BigDecimal.valueOf(101, 2));
 			}
 			if (customer.debt.compareTo(BigDecimal.ZERO) > 0) {
