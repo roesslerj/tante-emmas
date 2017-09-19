@@ -18,10 +18,10 @@ import net.amygdalum.tanteemmas.sources.Precipitation;
 import net.amygdalum.tanteemmas.sources.Season;
 import net.amygdalum.tanteemmas.sources.Temperature;
 import net.amygdalum.tanteemmas.sources.Weather;
-import net.amygdalum.tanteemmas.sources.Weather‬Source;
+import net.amygdalum.tanteemmas.sources.WeatherSource;
 import net.amygdalum.tanteemmas.sources.Wind;
 
-public class SimulatedWeatherSource implements Weather‬Source {
+public class SimulatedWeatherSource implements WeatherSource {
 
 	private TimeProvider time;
 	private DateSource date;

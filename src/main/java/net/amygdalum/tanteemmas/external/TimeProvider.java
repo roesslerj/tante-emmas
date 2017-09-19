@@ -11,8 +11,19 @@ public class TimeProvider {
 	}
 	
 	public void setSpeed(long speed) {
-		start -= System.currentTimeMillis() * (speed - this.speed);
+		if (speed <= 0) {
+			speed = 1;
+			return;
+		}
+		long current = System.currentTimeMillis();
+		long millis = (current - start) * this.speed;
+		long newMillis = millis / speed;
+		this.start = current - newMillis;
 		this.speed = speed;
+	}
+	
+	public long getSpeed() {
+		return speed;
 	}
 
 	public long millis() {

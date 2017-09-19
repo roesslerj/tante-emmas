@@ -1,6 +1,6 @@
 package net.amygdalum.tanteemmas.sources;
 
-public interface Weather‬Source {
+public interface WeatherSource {
 
 	Weather getWeather();
 

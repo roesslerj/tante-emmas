@@ -1,9 +1,10 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 </head>
 <body>
 <h1>Tante Emmas Online Shop</h1>
-<h2>Eingeloggt als:{{user}}</h2>
+<h2>Eingeloggt als:{{user}} <a href="/logout">Ausloggen</a></h2>
 <table>
 <th>Product</th><th>Price</th>
 {{#each products}}
@@ -36,6 +37,8 @@
 <td>Temperatur</td><td>{{weather.temperature}}</td>
 <tr>
 </table>
+
+ <h2> Zeit </h2><a href="/speed/{{incspeed}}">+</a>{{speed}}<a href="/speed/{{decspeed}}">-</a></h2>
 
 </body>
 </html>

@@ -13,13 +13,13 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.templ.HandlebarsTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
-import net.amygdalum.tanteemmas.external.TimeProvider;
 import net.amygdalum.tanteemmas.external.SimulatedDateSource;
 import net.amygdalum.tanteemmas.external.SimulatedDaytimeSource;
 import net.amygdalum.tanteemmas.external.SimulatedWeatherSource;
+import net.amygdalum.tanteemmas.external.TimeProvider;
 import net.amygdalum.tanteemmas.sources.DateSource;
 import net.amygdalum.tanteemmas.sources.DaytimeSource;
-import net.amygdalum.tanteemmas.sources.Weather‬Source;
+import net.amygdalum.tanteemmas.sources.WeatherSource;
 
 public class Server extends AbstractVerticle {
 
@@ -27,25 +27,26 @@ public class Server extends AbstractVerticle {
 	private ProductRepo products;
 	private TemplateEngine engine;
 
-	private TimeProvider millis;
+	private TimeProvider time;
 	private DateSource date;
 	private DaytimeSource daytime;
-	private Weather‬Source weather;
+	private WeatherSource weather;
 
 	public Server() {
 		engine = HandlebarsTemplateEngine.create().setExtension("html");
 		products = new ProductRepo().init();
 		customers = new CustomerRepo().init();
-		millis = new TimeProvider();
-		date = new SimulatedDateSource(millis);
-		daytime = new SimulatedDaytimeSource(millis);
-		weather = new SimulatedWeatherSource(millis, date);
+		time = new TimeProvider();
+		date = new SimulatedDateSource(time);
+		daytime = new SimulatedDaytimeSource(time);
+		weather = new SimulatedWeatherSource(time, date);
 	}
 
 	public void start() {
 		Router router = Router.router(vertx);
 		router.route("/speed/:speed").handler(this::speed);
 		router.route("/login").handler(this::login);
+		router.route("/logout").handler(this::logout);
 		router.route("/prices").handler(this::prices);
 		router.route("/showPrices").handler(this::showPrices);
 		router.route("/showLogin").handler(this::showLogin);
@@ -57,7 +58,7 @@ public class Server extends AbstractVerticle {
 
 	public void speed(RoutingContext context) {
 		long speed = Long.parseLong(context.request().getParam("speed"));
-		millis.setSpeed(speed);
+		time.setSpeed(speed);
 		context.reroute("/prices");
 	}
 
@@ -66,6 +67,11 @@ public class Server extends AbstractVerticle {
 		Customer customer = customers.getCustomer(name);
 		PriceCalculator.customer = customer;
 		context.reroute("/prices");
+	}
+
+	public void logout(RoutingContext context) {
+		PriceCalculator.customer = null;
+		context.reroute("/showLogin");
 	}
 
 	public void prices(RoutingContext context) {
@@ -105,6 +111,9 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void showPrices(RoutingContext context) {
+		context.data().put("speed", time.getSpeed());
+		context.data().put("incspeed", time.getSpeed() * 10);
+		context.data().put("decspeed", time.getSpeed() / 10);
 		context.data().put("user", PriceCalculator.customer.name);
 
 		engine.render(context, "src/main/resources/index.html", res -> {

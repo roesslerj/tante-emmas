@@ -15,7 +15,7 @@ import net.amygdalum.tanteemmas.sources.Precipitation;
 import net.amygdalum.tanteemmas.sources.Season;
 import net.amygdalum.tanteemmas.sources.Temperature;
 import net.amygdalum.tanteemmas.sources.Weather;
-import net.amygdalum.tanteemmas.sources.Weather‬Source;
+import net.amygdalum.tanteemmas.sources.WeatherSource;
 import net.amygdalum.tanteemmas.sources.Weekday;
 import net.amygdalum.tanteemmas.sources.Wind;
 
@@ -25,9 +25,9 @@ public class PriceCalculator {
 
 	private DateSource dateSource;
 	private DaytimeSource daytimeSource;
-	private Weather‬Source weatherSource;
+	private WeatherSource weatherSource;
 
-	public PriceCalculator(DateSource date, DaytimeSource daytime, Weather‬Source weather) {
+	public PriceCalculator(DateSource date, DaytimeSource daytime, WeatherSource weather) {
 		this.dateSource = date;
 		this.daytimeSource = daytime;
 		this.weatherSource = weather;
