@@ -1,6 +1,7 @@
 package net.amygdalum.tanteemmas.server;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyMap;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -44,6 +45,15 @@ public class ProductRepo {
 		product.put("basePrice", base);
 		product.put("categories", new HashSet<>(asList(categories)));
 		return product;
+	}
+
+	public Map<String, Object> getProduct(String name) {
+		for (Map<String, Object> product : products) {
+			if (name.equals(product.get("name"))) {
+				return product;
+			}
+		}
+		return emptyMap();
 	}
 
 

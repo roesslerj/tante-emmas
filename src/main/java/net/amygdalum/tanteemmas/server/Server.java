@@ -47,6 +47,7 @@ public class Server extends AbstractVerticle {
 		router.route("/speed/:speed").handler(this::speed);
 		router.route("/login").handler(this::login);
 		router.route("/logout").handler(this::logout);
+		router.route("/order/:product").handler(this::order);
 		router.route("/prices").handler(this::prices);
 		router.route("/showPrices").handler(this::showPrices);
 		router.route("/showLogin").handler(this::showLogin);
@@ -72,6 +73,18 @@ public class Server extends AbstractVerticle {
 	public void logout(RoutingContext context) {
 		PriceCalculator.customer = null;
 		context.reroute("/showLogin");
+	}
+
+	public void order(RoutingContext context) {
+		if (PriceCalculator.customer == null) {
+			context.next();
+			return;
+		}
+		PriceCalculator prices = new PriceCalculator(date, daytime, weather);
+		String name = context.request().getParam("product");
+		Map<String, Object> product = products.getProduct(name);
+		prices.order(product);
+		context.reroute("/prices");
 	}
 
 	public void prices(RoutingContext context) {
