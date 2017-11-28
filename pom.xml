@@ -40,6 +40,11 @@
 	</properties>
 
 	<dependencies>
+        <dependency>
+            <groupId>net.amygdalum</groupId>
+            <artifactId>testrecorder</artifactId>
+            <version>0.3.9</version>
+        </dependency>
 		<dependency>
 			<groupId>com.github.almondtools</groupId>
 			<artifactId>conmatch</artifactId>
