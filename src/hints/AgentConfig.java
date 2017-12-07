@@ -6,9 +6,10 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import net.amygdalum.testrecorder.DefaultTestRecorderAgentConfig;
-import net.amygdalum.testrecorder.Packages;
 import net.amygdalum.testrecorder.ScheduledTestGenerator;
 import net.amygdalum.testrecorder.SnapshotConsumer;
+import net.amygdalum.testrecorder.profile.Classes;
+import net.amygdalum.testrecorder.profile.Methods;
 
 public class AgentConfig extends DefaultTestRecorderAgentConfig {
 
@@ -28,8 +29,13 @@ public class AgentConfig extends DefaultTestRecorderAgentConfig {
 	}
 
 	@Override
-	public List<Packages> getPackages() {
-		return asList(Packages.byPrefix("net.amygdalum.tanteemmas.server"));
+	public List<Classes> getClasses() {
+		return asList(Classes.byPackage("net.amygdalum.tanteemmas"), Classes.byName("java.io.Writer"));
+	}
+	
+	@Override
+	public List<Methods> getOutputs() {
+		return asList(Methods.byName("write"));
 	}
 	
 }

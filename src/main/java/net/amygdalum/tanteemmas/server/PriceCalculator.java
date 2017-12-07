@@ -106,7 +106,7 @@ public class PriceCalculator {
 	public void order(Map<String, Object> product) {
 		BigDecimal price = computePrice(product);
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("orders.txt", true))) {
-			writer.write(product.get("name") + ": " + price);
+			writer.write(customer.name + " " + product.get("name") + ": " + price);
 			writer.newLine();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
