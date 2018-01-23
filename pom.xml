@@ -43,12 +43,12 @@
         <dependency>
             <groupId>net.amygdalum</groupId>
             <artifactId>testrecorder</artifactId>
-            <version>0.3.9</version>
+            <version>0.3.10</version>
         </dependency>
 		<dependency>
 			<groupId>com.github.almondtools</groupId>
 			<artifactId>conmatch</artifactId>
-			<version>0.1.11</version>
+			<version>0.1.13</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vertx</groupId>
