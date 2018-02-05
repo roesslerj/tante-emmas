@@ -1,6 +1,7 @@
 package net.amygdalum.tanteemmas.testrecorder;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 
 import java.nio.file.Paths;
 import java.util.List;
@@ -35,7 +36,7 @@ public class AgentConfig extends DefaultTestRecorderAgentConfig {
 	
 	@Override
 	public List<Methods> getOutputs() {
-		return asList(Methods.byName("write"));
+		return emptyList();
 	}
 	
 }

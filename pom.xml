@@ -43,7 +43,7 @@
         <dependency>
             <groupId>net.amygdalum</groupId>
             <artifactId>testrecorder</artifactId>
-            <version>0.3.10</version>
+            <version>0.3.11</version>
         </dependency>
 		<dependency>
 			<groupId>com.github.almondtools</groupId>
