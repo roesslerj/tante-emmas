@@ -41,9 +41,9 @@ public class PriceCalculator {
 		if (price == null) {
 			return null;
 		}
-		boolean netPrice = customer.name.equals("Gerd Grosskunde");
-		boolean fairPrice = customer.name.equals("Otto Normalverbraucher") || customer.name.equals("Michaela Mustermann");
-		if (customer.name.equals("Armer Schlucker")) {
+		boolean netPrice = customer.status.contains("netprice");
+		boolean fairPrice = customer.status.isEmpty();
+		if (customer.status.contains("poor")) {
 			if (customer.debt.compareTo(BigDecimal.ZERO) > 0) {
 				customer.notCreditable = true;
 			}

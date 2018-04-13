@@ -13,6 +13,7 @@ public class Customer {
 		this.name = name;
 		this.debt = BigDecimal.ZERO;
 		this.notCreditable = false;
+		status = "";
 	}
-	
+
 }
