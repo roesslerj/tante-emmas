@@ -2,11 +2,11 @@ package net.amygdalum.tanteemmas.external;
 
 public class TimeProvider {
 
-	private long start;
+	private long hours;
 	private long speed;
 
 	public TimeProvider() {
-		this.start = System.currentTimeMillis();
+		this.hours = 0;
 		this.speed = 1;
 	}
 
@@ -15,10 +15,6 @@ public class TimeProvider {
 			speed = 1;
 			return;
 		}
-		long current = System.currentTimeMillis();
-		long millis = (current - start) * this.speed;
-		long newMillis = millis / speed;
-		this.start = current - newMillis;
 		this.speed = speed;
 	}
 
@@ -26,20 +22,13 @@ public class TimeProvider {
 		return speed;
 	}
 
-	public long millis() {
-		return (System.currentTimeMillis() - start) * speed;
-	}
-
-	public long seconds() {
-		return millis() / 1000;
-	}
-
-	public long minutes() {
-		return seconds() / 60;
-	}
-
 	public long hours() {
-		return minutes() / 60;
+		increase();
+		return hours;
+	}
+
+	private void increase() {
+		hours += speed;
 	}
 
 	public long days() {
