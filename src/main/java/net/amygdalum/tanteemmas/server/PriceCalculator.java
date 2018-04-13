@@ -2,9 +2,6 @@ package net.amygdalum.tanteemmas.server;
 
 import static java.util.Collections.emptySet;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
@@ -96,15 +93,4 @@ public class PriceCalculator {
 		}
 		return price.setScale(2, RoundingMode.HALF_UP);
 	}
-
-	public void order(Map<String, Object> product) {
-		BigDecimal price = computePrice(product);
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("orders.txt", true))) {
-			writer.write(customer.name + " " + product.get("name") + ": " + price);
-			writer.newLine();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 }

@@ -20,6 +20,16 @@
 	</table>
 
 
+	<h1>Cart</h1>
+	<table>
+		<th>Product</th>
+		<th>Price</th> {{#each orders}}
+		<tr>
+			<td>{{name}}</td>
+			<td>{{price}}</td>
+			<td><a href="/order/{{name}}">Order</a></td>
+		<tr>{{/each}}
+	</table>
 
 	<h2>The day of the week</h2>
 			<table>

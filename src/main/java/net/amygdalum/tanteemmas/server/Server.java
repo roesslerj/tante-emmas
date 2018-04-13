@@ -27,6 +27,7 @@ public class Server extends AbstractVerticle {
 	private CustomerRepo customers;
 	private ProductRepo products;
 	private TemplateEngine engine;
+	private List<Map<String, Object>> orders = new ArrayList<>();
 
 	private TimeProvider time;
 	private DateSource date;
@@ -84,8 +85,10 @@ public class Server extends AbstractVerticle {
 		}
 		PriceCalculator prices = new PriceCalculator(date, daytime, weather);
 		String name = context.request().getParam("product");
-		Map<String, Object> product = products.getProduct(name);
-		prices.order(product);
+		Map<String, Object> product = new HashMap<>(products.getProduct(name));
+		product.put("price", prices.computePrice(product));
+		orders.add(product);
+		context.data().put("orders", orders);
 		context.reroute("/prices");
 	}
 
@@ -114,9 +117,9 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void show(RoutingContext context) {
-		context.data().put("date",date.getDate());
-		context.data().put("daytime",daytime.getDaytime());
-		context.data().put("weather",weather.getWeather());
+		context.data().put("date", date.getDate());
+		context.data().put("daytime", daytime.getDaytime());
+		context.data().put("weather", weather.getWeather());
 
 		if (PriceCalculator.customer == null) {
 			context.reroute("/showLogin");
@@ -126,7 +129,6 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void showPrices(RoutingContext context) {
-		System.out.println("Showing prices.");
 		context.data().put("speed", time.getSpeed());
 		context.data().put("incspeed", time.getSpeed() * 10);
 		context.data().put("decspeed", time.getSpeed() / 10);
