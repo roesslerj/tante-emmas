@@ -12,6 +12,7 @@ import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.impl.StaticHandlerImpl;
 import io.vertx.ext.web.templ.HandlebarsTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
 import net.amygdalum.tanteemmas.external.SimulatedDateSource;
@@ -54,6 +55,12 @@ public class Server extends AbstractVerticle {
 		router.route("/prices").handler(this::prices);
 		router.route("/showPrices").handler(this::showPrices);
 		router.route("/showLogin").handler(this::showLogin);
+
+		router.route("/css/*").handler(new StaticHandlerImpl("src/main/resources/css", null));
+		router.route("/fonts/*").handler(new StaticHandlerImpl("src/main/resources/fonts", null));
+		router.route("/img/*").handler(new StaticHandlerImpl("src/main/resources/img", null));
+		router.route("/js/*").handler(new StaticHandlerImpl("src/main/resources/js", null));
+
 		router.route().handler(this::show);
 
 		HttpServer server = vertx.createHttpServer();
