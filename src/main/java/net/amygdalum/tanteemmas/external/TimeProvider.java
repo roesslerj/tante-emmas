@@ -9,7 +9,7 @@ public class TimeProvider {
 		this.start = System.currentTimeMillis();
 		this.speed = 1;
 	}
-	
+
 	public void setSpeed(long speed) {
 		if (speed <= 0) {
 			speed = 1;
@@ -21,7 +21,7 @@ public class TimeProvider {
 		this.start = current - newMillis;
 		this.speed = speed;
 	}
-	
+
 	public long getSpeed() {
 		return speed;
 	}
@@ -29,21 +29,21 @@ public class TimeProvider {
 	public long millis() {
 		return (System.currentTimeMillis() - start) * speed;
 	}
-		
+
 	public long seconds() {
 		return millis() / 1000;
 	}
-		
+
 	public long minutes() {
 		return seconds() / 60;
 	}
-		
+
 	public long hours() {
 		return minutes() / 60;
 	}
-	
+
 	public long days() {
 		return hours() / 24;
 	}
-		
+
 }

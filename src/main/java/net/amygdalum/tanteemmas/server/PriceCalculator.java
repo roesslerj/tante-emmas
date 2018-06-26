@@ -47,7 +47,7 @@ public class PriceCalculator {
 			if (customer.debt.compareTo(BigDecimal.ZERO) > 0) {
 				customer.notCreditable = true;
 			}
-		} else if (customer.status != null && customer.status.contains("rich")) {
+		} else if ((customer.status != null) && customer.status.contains("rich")) {
 			if (customer.debt.compareTo(BigDecimal.valueOf(10_000)) < 0) {
 				customer.notCreditable = false;
 			} else {
@@ -61,29 +61,23 @@ public class PriceCalculator {
 			Daytime daytime = daytimeSource.getDaytime();
 			Date date = dateSource.getDate();
 			Weather weather = weatherSource.getWeather();
-			
+
 			@SuppressWarnings("unchecked")
 			Set<String> categories = (Set<String>) product.getOrDefault("categories", emptySet());
-			if (categories.contains("rainwear")
-				&& (weather.getPrecipitation().equals(Precipitation.DRIZZLE)
-					|| weather.getPrecipitation().equals(Precipitation.RAIN))
-				|| date.getSeason() == Season.FALL) {
+			if ((categories.contains("rainwear") && (weather.getPrecipitation().equals(Precipitation.DRIZZLE) || weather.getPrecipitation().equals(Precipitation.RAIN))) || (date.getSeason() == Season.FALL)) {
 				price = price.multiply(BigDecimal.valueOf(102, 2));
 				product.put("bad circumstances", true);
 			}
-			if (weather.getWind() == Wind.STORM
-				|| weather.getTemperature() == Temperature.FREEZING
-				|| weather.getPrecipitation() == Precipitation.RAIN) {
+			if ((weather.getWind() == Wind.STORM) || (weather.getTemperature() == Temperature.FREEZING) || (weather.getPrecipitation() == Precipitation.RAIN)) {
 				product.put("bad circumstances", true);
 			}
-			if (categories.contains("summercollection")
-				&& (date.getSeason() == Season.SUMMER)) {
+			if (categories.contains("summercollection") && (date.getSeason() == Season.SUMMER)) {
 				price = price.multiply(BigDecimal.valueOf(105, 2));
 			}
-			if (date.getWeekday() == Weekday.SATURDAY || date.getWeekday() == Weekday.SUNDAY) {
+			if ((date.getWeekday() == Weekday.SATURDAY) || (date.getWeekday() == Weekday.SUNDAY)) {
 				price = price.multiply(BigDecimal.valueOf(103, 2));
 			}
-			if (daytime == Daytime.MORNING || daytime == Daytime.EVENING) {
+			if ((daytime == Daytime.MORNING) || (daytime == Daytime.EVENING)) {
 				price = price.multiply(BigDecimal.valueOf(101, 2));
 			}
 			if (customer.debt.compareTo(BigDecimal.ZERO) > 0) {

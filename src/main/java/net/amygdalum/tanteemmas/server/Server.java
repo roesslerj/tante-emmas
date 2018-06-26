@@ -42,6 +42,7 @@ public class Server extends AbstractVerticle {
 		weather = new SimulatedWeatherSource(time, date);
 	}
 
+	@Override
 	public void start() {
 		Router router = Router.router(vertx);
 		router.route("/speed/:speed").handler(this::speed);
@@ -115,7 +116,7 @@ public class Server extends AbstractVerticle {
 		context.data().put("date",date.getDate());
 		context.data().put("daytime",daytime.getDaytime());
 		context.data().put("weather",weather.getWeather());
-		
+
 		if (PriceCalculator.customer == null) {
 			context.reroute("/showLogin");
 		} else {

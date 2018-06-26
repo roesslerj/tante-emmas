@@ -42,14 +42,14 @@ public class SimulatedWeatherSource implements WeatherSource {
 		double base = time.hours();
 
 		Season season = date.getDate().getSeason();
-		
-		
+
+
 		return new Weather(
-			precipitation.value(base, precipitationForSeason(season)),
-			temperature.value(base, temperatureForSeason(season)),
-			wind.value(base, windForSeason(season)));
+				precipitation.value(base, precipitationForSeason(season)),
+				temperature.value(base, temperatureForSeason(season)),
+				wind.value(base, windForSeason(season)));
 	}
-	
+
 	public static Precipitation[] precipitationForSeason(Season season) {
 		switch(season) {
 		case SPRING:
@@ -95,16 +95,16 @@ public class SimulatedWeatherSource implements WeatherSource {
 		}
 
 		public <T> T value(double base, T[] values) {
-			double value = Math.sin(base / f1 + Math.PI) * f1 +
-				Math.sin(base / f2 + 2 * Math.PI) * f2 +
-				Math.sin(base / f3 + 3 * Math.PI) * f3;
+			double value = (Math.sin((base / f1) + Math.PI) * f1) +
+					(Math.sin((base / f2) + (2 * Math.PI)) * f2) +
+					(Math.sin((base / f3) + (3 * Math.PI)) * f3);
 
 			double max = f1 + f2 + f3;
 			double min = -max;
-			
+
 			double relativeValue = (value - min) / (max - min);
-			int index = (int) (relativeValue * (double) values.length);
-			
+			int index = (int) (relativeValue * values.length);
+
 			return values[index];
 		}
 
