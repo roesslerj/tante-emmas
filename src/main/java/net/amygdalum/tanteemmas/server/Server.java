@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
@@ -125,6 +126,7 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void showPrices(RoutingContext context) {
+		System.out.println("Showing prices.");
 		context.data().put("speed", time.getSpeed());
 		context.data().put("incspeed", time.getSpeed() * 10);
 		context.data().put("decspeed", time.getSpeed() / 10);
@@ -140,6 +142,7 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void showLogin(RoutingContext context) {
+		System.out.println("Showing login.");
 		engine.render(context, "src/main/resources/login.html", res -> {
 			if (res.succeeded()) {
 				context.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html").end(res.result());
@@ -149,4 +152,8 @@ public class Server extends AbstractVerticle {
 		});
 	}
 
+	public static void main(String[] args) {
+		Vertx vertx = Vertx.vertx();
+		vertx.deployVerticle(Server.class.getName());
+	}
 }
