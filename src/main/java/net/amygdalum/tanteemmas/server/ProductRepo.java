@@ -17,7 +17,7 @@ public class ProductRepo {
 	public ProductRepo() {
 		products = new ArrayList<>();
 	}
-	
+
 	public List<Map<String, Object>> getProducts() {
 		return products;
 	}
@@ -27,14 +27,14 @@ public class ProductRepo {
 	}
 
 	public ProductRepo init() {
-		registerProduct(createProduct("Regencape", BigDecimal.valueOf(15.0), "rainwear"));
-		registerProduct(createProduct("Badeanzug", BigDecimal.valueOf(25.0), "summercollection"));
-		registerProduct(createProduct("Sonnencreme", BigDecimal.valueOf(2.0), "summercollection"));
-		
-		registerProduct(createProduct("Wodka", BigDecimal.valueOf(10.0), "spirits"));
+		registerProduct(createProduct("rain cape", BigDecimal.valueOf(15.0), "rainwear"));
+		registerProduct(createProduct("bathing suit", BigDecimal.valueOf(25.0), "summercollection"));
+		registerProduct(createProduct("sunscreen", BigDecimal.valueOf(2.0), "summercollection"));
 
-		registerProduct(createProduct("Mehl", BigDecimal.valueOf(0.69), "food"));
-		registerProduct(createProduct("10 Eier", BigDecimal.valueOf(2.59), "food"));
+		registerProduct(createProduct("vodka", BigDecimal.valueOf(10.0), "spirits"));
+
+		registerProduct(createProduct("flour", BigDecimal.valueOf(0.69), "food"));
+		registerProduct(createProduct("10 eggs", BigDecimal.valueOf(2.59), "food"));
 
 		return this;
 	}

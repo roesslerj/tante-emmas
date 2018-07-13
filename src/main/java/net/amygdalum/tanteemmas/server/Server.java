@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.impl.StaticHandlerImpl;
 import io.vertx.ext.web.templ.HandlebarsTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
 import net.amygdalum.tanteemmas.external.SimulatedDateSource;
@@ -26,6 +28,7 @@ public class Server extends AbstractVerticle {
 	private CustomerRepo customers;
 	private ProductRepo products;
 	private TemplateEngine engine;
+	private List<Map<String, Object>> orders = new ArrayList<>();
 
 	private TimeProvider time;
 	private DateSource date;
@@ -42,6 +45,7 @@ public class Server extends AbstractVerticle {
 		weather = new SimulatedWeatherSource(time, date);
 	}
 
+	@Override
 	public void start() {
 		Router router = Router.router(vertx);
 		router.route("/speed/:speed").handler(this::speed);
@@ -51,6 +55,12 @@ public class Server extends AbstractVerticle {
 		router.route("/prices").handler(this::prices);
 		router.route("/showPrices").handler(this::showPrices);
 		router.route("/showLogin").handler(this::showLogin);
+
+		router.route("/css/*").handler(new StaticHandlerImpl("src/main/resources/css", null));
+		router.route("/fonts/*").handler(new StaticHandlerImpl("src/main/resources/fonts", null));
+		router.route("/img/*").handler(new StaticHandlerImpl("src/main/resources/img", null));
+		router.route("/js/*").handler(new StaticHandlerImpl("src/main/resources/js", null));
+
 		router.route().handler(this::show);
 
 		HttpServer server = vertx.createHttpServer();
@@ -82,8 +92,10 @@ public class Server extends AbstractVerticle {
 		}
 		PriceCalculator prices = new PriceCalculator(date, daytime, weather);
 		String name = context.request().getParam("product");
-		Map<String, Object> product = products.getProduct(name);
-		prices.order(product);
+		Map<String, Object> product = new HashMap<>(products.getProduct(name));
+		product.put("price", prices.computePrice(product));
+		orders.add(product);
+		context.data().put("orders", orders);
 		context.reroute("/prices");
 	}
 
@@ -112,10 +124,10 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void show(RoutingContext context) {
-		context.data().put("date",date.getDate());
-		context.data().put("daytime",daytime.getDaytime());
-		context.data().put("weather",weather.getWeather());
-		
+		context.data().put("date", date.getDate());
+		context.data().put("daytime", daytime.getDaytime());
+		context.data().put("weather", weather.getWeather());
+
 		if (PriceCalculator.customer == null) {
 			context.reroute("/showLogin");
 		} else {
@@ -139,6 +151,7 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void showLogin(RoutingContext context) {
+		System.out.println("Showing login.");
 		engine.render(context, "src/main/resources/login.html", res -> {
 			if (res.succeeded()) {
 				context.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html").end(res.result());
@@ -148,4 +161,8 @@ public class Server extends AbstractVerticle {
 		});
 	}
 
+	public static void main(String[] args) {
+		Vertx vertx = Vertx.vertx();
+		vertx.deployVerticle(Server.class.getName());
+	}
 }

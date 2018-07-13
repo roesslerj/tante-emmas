@@ -1,13 +1,19 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-</head>
-<body>
+{{#partial "central" }}
 <h1>Tante Emmas Online Shop</h1>
-<h2>Bitte einloggen:</h2>
+<h2>Please log in:</h2>
 <form action="/login" method="get">
-<input name="customer" type="text"/>
-<input type="submit" >
+	<input name="customer" type="text" />
+	<input name="login" type="submit" />
 </form>
-</body>
-</html>
+{{/partial}}
+
+{{#partial "col1" }}
+{{/partial}}
+
+{{#partial "col2" }}
+{{/partial}}
+
+{{#partial "col3" }}
+{{/partial}}
+
+{{> page}}

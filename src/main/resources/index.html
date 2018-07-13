@@ -1,44 +1,82 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-</head>
-<body>
-<h1>Tante Emmas Online Shop</h1>
-<h2>Eingeloggt als:{{user}} <a href="/logout">Ausloggen</a></h2>
-<table>
-<th>Product</th><th>Price</th>
-{{#each products}}
-<tr>
-<td>{{name}}</td><td>{{price}}</td><td><a href="/order/{{name}}">Bestellen</a></td>
-<tr>
-{{/each}}
-</table>
+{{#partial "central" }}
+	<h1>Tante Emmas Online Shop</h1>
+	<h2>
+		Logged in as: {{user}} <a href="/logout">logout</a>
+	</h2>
+{{/partial}}
 
 
-<h2>Der Tag</h2>
+{{#partial "col1" }}
+	<h1>Products</h1>
+	<table>
+		<tr>
+		<th>Product</th>
+		<th>Price</th>
+		</tr> 
+		{{#each products}}
+		<tr>
+			<td>{{name}}</td>
+			<td>{{price}}</td>
+			<td><a href="/order/{{name}}">Order</a></td>
+		</tr>
+		{{/each}}
+	</table>
+{{/partial}}
 
-<table>
-<tr>
-<td>Wochentag</td><td>{{date.weekday}}</td>
-<tr>
-<tr>
-<td>Jahreszeit</td><td>{{date.season}}</td>
-<tr>
-<tr>
-<td>Tageszeit</td><td>{{daytime}}</td>
-<tr>
-<tr>
-<td>Wind</td><td>{{weather.wind}}</td>
-<tr>
-<tr>
-<td>Niederschlag</td><td>{{weather.precipitation}}</td>
-<tr>
-<tr>
-<td>Temperatur</td><td>{{weather.temperature}}</td>
-<tr>
-</table>
+{{#partial "col2" }}
+	<h1>Cart</h1>
+	<table>
+	  <tr>
+		<th>Product</th>
+		<th>Price</th>
+		</tr> 
+		{{#each orders}}
+		<tr>
+			<td>{{name}}</td>
+			<td>{{price}}</td>
+			<td><a href="/order/{{name}}">Order</a></td>
+		</tr>
+		{{/each}}
+	</table>
+{{/partial}}
 
- <h2> Zeit </h2><a href="/speed/{{incspeed}}">+</a>{{speed}}<a href="/speed/{{decspeed}}">-</a></h2>
 
-</body>
-</html>
+{{#partial "col3" }}
+	<h2>The day of the week</h2>
+			<table>
+				<tr>
+					<td>Day of the week</td>
+					<td>{{date.weekday}}</td>
+				</tr>
+		
+				<tr>
+					<td>Season</td>
+					<td>{{date.season}}</td>
+				</tr>
+		
+				<tr>
+					<td>Time of the day</td>
+					<td>{{daytime}}</td>
+				</tr>
+		
+				<tr>
+					<td>Wind</td>
+					<td>{{weather.wind}}</td>
+				</tr>
+		
+				<tr>
+					<td>Precipitation</td>
+					<td>{{weather.precipitation}}</td>
+				</tr>
+		
+				<tr>
+					<td>Temperature</td>
+					<td>{{weather.temperature}}</td>
+				</tr>
+			</table>
+
+	<h2>Speed of time</h2>
+	<a href="/speed/{{incspeed}}">+</a>{{speed}}<a href="/speed/{{decspeed}}">-</a>
+{{/partial}}
+
+{{> page}}

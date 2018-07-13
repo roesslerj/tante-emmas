@@ -19,7 +19,7 @@ public class SimulatedDaytimeSource implements DaytimeSource {
 
 	@Override
 	public Daytime getDaytime() {
-		long base = (long) time.hours();
+		long base = time.hours();
 		int time = (int) (base % 24);
 		if (time < 6) {
 			return NIGHT;

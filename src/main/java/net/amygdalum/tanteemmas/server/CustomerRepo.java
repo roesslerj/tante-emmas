@@ -7,11 +7,11 @@ import java.util.Map;
 public class CustomerRepo {
 
 	private Map<String, Customer> customers;
-	
+
 	public CustomerRepo() {
 		customers = new HashMap<>();
 	}
-	
+
 	public Customer getCustomer(String name) {
 		return customers.computeIfAbsent(name, n -> new Customer(name));
 	}
@@ -21,12 +21,13 @@ public class CustomerRepo {
 	}
 
 	public CustomerRepo init() {
-		registerCustomer(createCustomer("Armer Schlucker", BigDecimal.valueOf(5), "poor"));
-		registerCustomer(createCustomer("Reicher Schnösel", BigDecimal.valueOf(5000), "rich"));
-		registerCustomer(createCustomer("Reicher Pinkel", "rich"));
-		registerCustomer(createCustomer("Gerd Grosskunde","rich netprice"));
-		registerCustomer(createCustomer("Otto Normalverbraucher"));
-		registerCustomer(createCustomer("Michaela Mustermann"));
+		registerCustomer(createCustomer("Poor", BigDecimal.valueOf(5), "poor"));
+		registerCustomer(createCustomer("Min", BigDecimal.valueOf(5), "poor"));
+		registerCustomer(createCustomer("Max", BigDecimal.valueOf(5000), "rich"));
+		registerCustomer(createCustomer("Rich", "rich"));
+		registerCustomer(createCustomer("Big","rich netprice"));
+		registerCustomer(createCustomer("Ave"));
+		registerCustomer(createCustomer("Nobody"));
 		return this;
 	}
 
