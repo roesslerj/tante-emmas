@@ -69,6 +69,7 @@ public class Server extends AbstractVerticle {
 
 		HttpServer server = vertx.createHttpServer();
 		server.requestHandler(router::accept).listen(8080);
+		System.out.println("Started tante-emma-server.");
 	}
 
 	public void speed(RoutingContext context) {
@@ -155,7 +156,6 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void showLogin(RoutingContext context) {
-		System.out.println("Showing login.");
 		engine.render(context, "src/main/resources/login.html", res -> {
 			if (res.succeeded()) {
 				context.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html").end(res.result());
