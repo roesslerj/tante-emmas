@@ -89,6 +89,18 @@
 			<version>22.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>approvals</groupId>
+			<artifactId>ApprovalTests.Java</artifactId>
+			<version>0.13</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- required by approvaltests -->
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.5</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
