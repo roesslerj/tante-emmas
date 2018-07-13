@@ -20,7 +20,11 @@ public class SeleniumLargeTest {
 	public void setup() {
 		server = new Server();
 		server.startServer();
-		System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
+
+		// If ChromeDriver is not in your PATH, uncomment this and point to your installation.
+		// e.g. it can be downloaded from http://chromedriver.chromium.org/downloads
+		//		System.setProperty( "webdriver.chrome.driver", "path/to/chromedriver" );
+
 		driver = new ChromeDriver();
 		driver.manage().timeouts().pageLoadTimeout(-1, TimeUnit.MINUTES);
 	}
