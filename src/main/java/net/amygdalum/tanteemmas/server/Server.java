@@ -25,10 +25,12 @@ import net.amygdalum.tanteemmas.sources.WeatherSource;
 
 public class Server extends AbstractVerticle {
 
-	private CustomerRepo customers;
-	private ProductRepo products;
-	private TemplateEngine engine;
-	private List<Map<String, Object>> orders = new ArrayList<>();
+	private final Vertx vertx;
+
+	private final CustomerRepo customers;
+	private final ProductRepo products;
+	private final TemplateEngine engine;
+	private final List<Map<String, Object>> orders = new ArrayList<>();
 
 	private TimeProvider time;
 	private DateSource date;
@@ -43,6 +45,8 @@ public class Server extends AbstractVerticle {
 		date = new SimulatedDateSource(time);
 		daytime = new SimulatedDaytimeSource(time);
 		weather = new SimulatedWeatherSource(time, date);
+
+		vertx = Vertx.vertx();
 	}
 
 	@Override
@@ -65,6 +69,7 @@ public class Server extends AbstractVerticle {
 
 		HttpServer server = vertx.createHttpServer();
 		server.requestHandler(router::accept).listen(8080);
+		System.out.println("Started tante-emma-server.");
 	}
 
 	public void speed(RoutingContext context) {
@@ -151,7 +156,6 @@ public class Server extends AbstractVerticle {
 	}
 
 	public void showLogin(RoutingContext context) {
-		System.out.println("Showing login.");
 		engine.render(context, "src/main/resources/login.html", res -> {
 			if (res.succeeded()) {
 				context.response().putHeader(HttpHeaders.CONTENT_TYPE, "text/html").end(res.result());
@@ -162,7 +166,14 @@ public class Server extends AbstractVerticle {
 	}
 
 	public static void main(String[] args) {
-		Vertx vertx = Vertx.vertx();
+		new Server().startServer();
+	}
+
+	public void startServer() {
 		vertx.deployVerticle(Server.class.getName());
+	}
+
+	public void stopServer() {
+		vertx.undeploy(Server.class.getName());
 	}
 }
