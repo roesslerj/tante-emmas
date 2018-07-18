@@ -30,9 +30,9 @@
 	</properties>
 	
 	<scm>
-		<connection>scm:git:git@github.com:almondtools/tante-emmas.git</connection>
-		<developerConnection>scm:git:git@github.com:almondtools/tante-emmas.git</developerConnection>
-		<url>git@github.com:almondtools/tante-emmas.git</url>
+		<connection>scm:git:git@github.com:retest/tante-emmas.git</connection>
+		<developerConnection>scm:git:git@github.com:retest/tante-emmas.git</developerConnection>
+		<url>git@github.com:retest/tante-emmas.git</url>
 		<tag>HEAD</tag>
 	</scm>
 	
