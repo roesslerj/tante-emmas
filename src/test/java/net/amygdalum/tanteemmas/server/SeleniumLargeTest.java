@@ -58,13 +58,13 @@ public class SeleniumLargeTest {
 
 		assertEquals("sunscreen 2.02", driver.findElement(By.xpath("(//table//tr[2])[2]")).getText());
 		assertEquals("sunscreen 2.06", driver.findElement(By.xpath("(//table//tr[3])[2]")).getText());
-		assertEquals("rain cape 15.45", driver.findElement(By.xpath("(//table//tr[4])[2]")).getText());
+		assertEquals("rain cape 15.30", driver.findElement(By.xpath("(//table//tr[4])[2]")).getText());
 		assertEquals("bathing suit 26.53", driver.findElement(By.xpath("(//table//tr[5])[2]")).getText());
-		assertEquals("rain cape 15.45", driver.findElement(By.xpath("(//table//tr[6])[2]")).getText());
-		assertEquals("10 eggs 2.62", driver.findElement(By.xpath("(//table//tr[7])[2]")).getText());
+		assertEquals("rain cape 15.60", driver.findElement(By.xpath("(//table//tr[6])[2]")).getText());
+		assertEquals("10 eggs 2.69", driver.findElement(By.xpath("(//table//tr[7])[2]")).getText());
 		assertEquals("flour 0.71", driver.findElement(By.xpath("//table//tr[8]")).getText());
-		assertEquals("vodka 10.40", driver.findElement(By.xpath("//table//tr[9]")).getText());
-		assertEquals("bathing suit 26.53", driver.findElement(By.xpath("//table//tr[10]")).getText());
+		assertEquals("vodka 10.10", driver.findElement(By.xpath("//table//tr[9]")).getText());
+		assertEquals("bathing suit 26.01", driver.findElement(By.xpath("//table//tr[10]")).getText());
 	}
 
 	@After
