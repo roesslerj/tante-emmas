@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class SeleniumTest {
 
@@ -25,7 +26,15 @@ public class SeleniumTest {
 		// e.g. it can be downloaded from http://chromedriver.chromium.org/downloads
 		//		System.setProperty( "webdriver.chrome.driver", "path/to/chromedriver" );
 
-		driver = new ChromeDriver();
+		final ChromeOptions opts = new ChromeOptions();
+		opts.addArguments(
+				// Enable headless mode for faster execution.
+				"--headless",
+				// Use Chrome in container-based Travis CI environment (see https://docs.travis-ci.com/user/chrome#Sandboxing).
+				"--no-sandbox",
+				// Fix window size for stable results.
+				"--window-size=1200,800" );
+		driver = new ChromeDriver( opts );
 		driver.manage().timeouts().pageLoadTimeout(-1, TimeUnit.MINUTES);
 	}
 
