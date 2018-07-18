@@ -1,4 +1,5 @@
-package net.amygdalum.tanteemmas.server;
+package net.amygdalum.tanteemmas;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,6 +11,9 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import net.amygdalum.tanteemmas.server.Server;
 
 public class SeleniumLargeTest {
 
@@ -25,7 +29,15 @@ public class SeleniumLargeTest {
 		// e.g. it can be downloaded from http://chromedriver.chromium.org/downloads
 		//		System.setProperty( "webdriver.chrome.driver", "path/to/chromedriver" );
 
-		driver = new ChromeDriver();
+		final ChromeOptions opts = new ChromeOptions();
+		opts.addArguments(
+				// Enable headless mode for faster execution.
+				"--headless",
+				// Use Chrome in container-based Travis CI environment (see https://docs.travis-ci.com/user/chrome#Sandboxing).
+				"--no-sandbox",
+				// Fix window size for stable results.
+				"--window-size=1200,800" );
+		driver = new ChromeDriver( opts );
 		driver.manage().timeouts().pageLoadTimeout(-1, TimeUnit.MINUTES);
 	}
 
@@ -49,13 +61,13 @@ public class SeleniumLargeTest {
 
 		assertEquals("sunscreen 2.02", driver.findElement(By.xpath("(//table//tr[2])[2]")).getText());
 		assertEquals("sunscreen 2.06", driver.findElement(By.xpath("(//table//tr[3])[2]")).getText());
-		assertEquals("rain cape 15.45", driver.findElement(By.xpath("(//table//tr[4])[2]")).getText());
+		assertEquals("rain cape 15.30", driver.findElement(By.xpath("(//table//tr[4])[2]")).getText());
 		assertEquals("bathing suit 26.53", driver.findElement(By.xpath("(//table//tr[5])[2]")).getText());
-		assertEquals("rain cape 15.45", driver.findElement(By.xpath("(//table//tr[6])[2]")).getText());
-		assertEquals("10 eggs 2.62", driver.findElement(By.xpath("(//table//tr[7])[2]")).getText());
+		assertEquals("rain cape 15.60", driver.findElement(By.xpath("(//table//tr[6])[2]")).getText());
+		assertEquals("10 eggs 2.69", driver.findElement(By.xpath("(//table//tr[7])[2]")).getText());
 		assertEquals("flour 0.71", driver.findElement(By.xpath("//table//tr[8]")).getText());
-		assertEquals("vodka 10.40", driver.findElement(By.xpath("//table//tr[9]")).getText());
-		assertEquals("bathing suit 26.53", driver.findElement(By.xpath("//table//tr[10]")).getText());
+		assertEquals("vodka 10.10", driver.findElement(By.xpath("//table//tr[9]")).getText());
+		assertEquals("bathing suit 26.01", driver.findElement(By.xpath("//table//tr[10]")).getText());
 	}
 
 	@After
