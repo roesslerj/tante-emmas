@@ -10,6 +10,9 @@ public class ChromeDriverFactory {
 	private ChromeDriverFactory() {}
 	
 	public static ChromeDriver createNewInstance( final String... args ) {
+		// If ChromeDriver is not in your PATH, uncomment this and point to your installation.
+		//		System.setProperty( "webdriver.chrome.driver", "path/to/chromedriver" );
+		
 		final ChromeOptions opts = new ChromeOptions();
 		opts.addArguments(
 				// Enable headless mode for faster execution.

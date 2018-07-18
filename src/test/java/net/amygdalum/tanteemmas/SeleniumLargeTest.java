@@ -21,10 +21,6 @@ public class SeleniumLargeTest {
 		server = new Server();
 		server.startServer();
 
-		// If ChromeDriver is not in your PATH, uncomment this and point to your installation.
-		// e.g. it can be downloaded from http://chromedriver.chromium.org/downloads
-		//		System.setProperty( "webdriver.chrome.driver", "path/to/chromedriver" );
-
 		driver = ChromeDriverFactory.createNewInstance();
 	}
 
