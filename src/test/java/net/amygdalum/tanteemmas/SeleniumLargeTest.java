@@ -1,4 +1,5 @@
-package net.amygdalum.tanteemmas.server;
+package net.amygdalum.tanteemmas;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +12,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+
+import net.amygdalum.tanteemmas.server.Server;
 
 public class SeleniumLargeTest {
 
