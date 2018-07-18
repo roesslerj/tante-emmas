@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>net.amygdalum</groupId>
 	<artifactId>tante-emmas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<name>${project.groupId}:${project.artifactId}</name>
-
-
-	<licenses>
-		<license>
-			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
-			<url>http://www.gnu.org/licenses/lgpl.txt</url>
-		</license>
-	</licenses>
+	<description>The tante emmas kata</description>
+	
 	<developers>
 		<developer>
 			<name>Stefan Mandel</name>
@@ -23,21 +17,31 @@
 			<organizationUrl>http://www.amygdalum.net/</organizationUrl>
 		</developer>
 	</developers>
+
+	<licenses>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
+			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+		</license>
+	</licenses>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
 	<scm>
 		<connection>scm:git:git@github.com:almondtools/tante-emmas.git</connection>
 		<developerConnection>scm:git:git@github.com:almondtools/tante-emmas.git</developerConnection>
 		<url>git@github.com:almondtools/tante-emmas.git</url>
 		<tag>HEAD</tag>
 	</scm>
+	
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -55,8 +59,9 @@
 			<artifactId>vertx-web-templ-handlebars</artifactId>
 			<version>3.3.3</version>
 		</dependency>
+
+		<!-- test dependencies -->
 		
-		<!-- Dependencies only needed for testing: -->
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>
@@ -82,6 +87,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -99,5 +105,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<description>The tante emmas kata</description>
 </project>
