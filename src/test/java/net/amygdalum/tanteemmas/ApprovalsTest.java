@@ -1,4 +1,4 @@
-package net.amygdalum.tanteemmas.server;
+package net.amygdalum.tanteemmas;
 
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import net.amygdalum.tanteemmas.server.Server;
 
 public class ApprovalsTest {
 
